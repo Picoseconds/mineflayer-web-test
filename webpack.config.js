@@ -1,11 +1,12 @@
-const webpack = require('webpack')
-const path = require('path')
+const path = require('path');
+const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const config = {
-  // devtool: 'inline-source-map',
-  // mode: 'development',
-  mode: 'production',
+  devtool: 'inline-source-map',
+  mode: 'development',
+  // mode: 'production',
   entry: path.resolve(__dirname, './index.js'),
   output: {
     path: path.resolve(__dirname, './public'),
@@ -51,15 +52,15 @@ const config = {
     new webpack.NormalModuleReplacementPlugin(
       /prismarine-viewer[/|\\]viewer[/|\\]lib[/|\\]utils/,
       './utils.web.js'
-    ),/*
+    ),
     new CopyPlugin({
       patterns: [
-        { from: '../../public/blocksStates/', to: './blocksStates/' },
-        { from: '../../public/textures/', to: './textures/' },
-        { from: '../../public/worker.js', to: './' },
-        { from: '../../public/supportedVersions.json', to: './' }
+        { from: './node_modules/prismarine-viewer/public/blocksStates/', to: './blocksStates/' },
+        { from: './node_modules/prismarine-viewer/public/textures/', to: './textures/' },
+        { from: './node_modules/prismarine-viewer/public/worker.js', to: './' },
+        { from: './node_modules/prismarine-viewer/public/supportedVersions.json', to: './' }
       ]
-    })*/
+    }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new LodashModuleReplacementPlugin()
   ],
@@ -72,7 +73,15 @@ const config = {
     watchOptions: {
       ignored: /node_modules/
     }
-  }
+  },
+  module: {
+    rules: [
+            {
+        test: /\.html$/i,
+        use: ['file-loader'],
+      },
+    ],
+  },
 }
 
 module.exports = config

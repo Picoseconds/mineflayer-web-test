@@ -4,7 +4,7 @@
     "description": "prismarine-viewer-standalone",
     "main": "index.js",
     "scripts": {
-        "prepare": "webpack",
+        "prepare": "node ./node_modules/prismarine-viewer/viewer/prerender.js && webpack",
         "start": "webpack serve",
         "prod-start": "node server/server.js",
         "build-start": "npm run prepare && npm run prod-start"
